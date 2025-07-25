@@ -1,4 +1,11 @@
 import { getWeatherForCity } from '../weatherService';
+import request from 'supertest';
+import express from 'express';
+import { weatherRoutes } from '../weatherRoutes';
+
+const app = express();
+app.use(express.json());
+app.use('/api/weather', weatherRoutes);
 
 describe('Weather Service Tests', () => {
   describe('getWeatherForCity', () => {
@@ -44,5 +51,29 @@ describe('Weather Service Tests', () => {
       expect(weatherData.humidity).toBeLessThanOrEqual(100);
       expect(weatherData.wind_speed).toBeGreaterThanOrEqual(0);
     });
+  });
+});
+
+describe('Weather API Routes', () => {
+  test('GET /api/weather/current should return 200', async () => {
+    const response = await request(app).get('/api/weather/current?city=Jakarta');
+    expect(response.status).toBe(200);
+  });
+
+  test('GET /api/weather/search should return 200', async () => {
+    const response = await request(app).get('/api/weather/search?q=Jakarta');
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('message');
+    expect(response.body).toHaveProperty('results');
+  });
+
+  test('GET /api/weather/history/Jakarta should return 200', async () => {
+    const response = await request(app).get('/api/weather/history/Jakarta');
+    expect(response.status).toBe(200);
+  });
+
+  test('GET /api/weather/analysis/Jakarta should return 200', async () => {
+    const response = await request(app).get('/api/weather/analysis/Jakarta');
+    expect(response.status).toBe(200);
   });
 }); 
