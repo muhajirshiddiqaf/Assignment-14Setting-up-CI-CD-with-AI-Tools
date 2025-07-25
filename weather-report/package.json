@@ -10,7 +10,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:ci": "jest --coverage --watchAll=false",
-    "lint": "eslint source/ --ext .ts",
+    "lint": "eslint source/ --ext .ts --max-warnings 50",
     "lint:fix": "eslint source/ --ext .ts --fix",
     "type-check": "tsc --noEmit"
   },

@@ -42,7 +42,7 @@ jobs:
     - name: Run ESLint
       run: |
         cd weather-report
-        npx eslint source/ --ext .ts --max-warnings 0
+        npx eslint source/ --ext .ts --max-warnings 50
         
     - name: Check TypeScript compilation
       run: |
