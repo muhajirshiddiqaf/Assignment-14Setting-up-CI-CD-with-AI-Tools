@@ -1,0 +1,45 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const weatherService_1 = require("../weatherService");
+describe('Weather Service Tests', () => {
+    describe('getWeatherForCity', () => {
+        it('should return weather data for valid city', async () => {
+            const weatherData = await (0, weatherService_1.getWeatherForCity)('Jakarta');
+            expect(weatherData).toHaveProperty('city');
+            expect(weatherData).toHaveProperty('temperature');
+            expect(weatherData.city).toBe('Jakarta');
+        });
+        it('should handle weather data structure correctly', async () => {
+            const weatherData = await (0, weatherService_1.getWeatherForCity)('Bandung');
+            expect(typeof weatherData.temperature).toBe('number');
+            expect(typeof weatherData.conditions).toBe('string');
+            expect(typeof weatherData.humidity).toBe('number');
+            expect(typeof weatherData.wind_speed).toBe('number');
+            expect(typeof weatherData.date_recorded).toBe('string');
+        });
+        it('should validate weather data structure', async () => {
+            const weatherData = await (0, weatherService_1.getWeatherForCity)('Surabaya');
+            // Check required properties
+            expect(weatherData).toHaveProperty('city');
+            expect(weatherData).toHaveProperty('temperature');
+            expect(weatherData).toHaveProperty('conditions');
+            expect(weatherData).toHaveProperty('humidity');
+            expect(weatherData).toHaveProperty('wind_speed');
+            expect(weatherData).toHaveProperty('date_recorded');
+            // Check data types
+            expect(typeof weatherData.city).toBe('string');
+            expect(typeof weatherData.temperature).toBe('number');
+            expect(typeof weatherData.conditions).toBe('string');
+            expect(typeof weatherData.humidity).toBe('number');
+            expect(typeof weatherData.wind_speed).toBe('number');
+            expect(typeof weatherData.date_recorded).toBe('string');
+            // Check value ranges
+            expect(weatherData.temperature).toBeGreaterThanOrEqual(-50);
+            expect(weatherData.temperature).toBeLessThanOrEqual(60);
+            expect(weatherData.humidity).toBeGreaterThanOrEqual(0);
+            expect(weatherData.humidity).toBeLessThanOrEqual(100);
+            expect(weatherData.wind_speed).toBeGreaterThanOrEqual(0);
+        });
+    });
+});
+//# sourceMappingURL=app.test.js.map
